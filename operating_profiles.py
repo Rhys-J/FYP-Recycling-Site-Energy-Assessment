@@ -9,8 +9,8 @@ import math
 
 #---------------------------------GRANULATING-----------------------------------------------------------
 #Date taken for profile is 20/10/21 Night Shift
-startdate = datetime.datetime(2021, 10, 20, 19) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2021, 10, 21, 7) #Set end date, first date exluded in analysis
+startdate = datetime.datetime(2021, 9, 17, 19) #Set start date, fist date included in analysis
+enddate = datetime.datetime(2021, 9, 18, 7) #Set end date, first date exluded in analysis
 days_difference =  (enddate - startdate).days
 
 with open("Sensor_Data/GL_Sensor_Data.csv") as csv_file: #Open the csv file specified
@@ -40,10 +40,15 @@ plt.plot(x, Max_GL_readings, label = "Max I")
 plt.plot(x, Min_GL_readings, label = "Min I")
 plt.plot(x, Avg_GL_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of Granulation Line")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_GL_readings)
+ymin = min(i for i in Avg_GL_readings if i > 130)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_GL_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("GL.png", bbox_inches="tight")
 plt.show()
 
 #---------------------------------SHREDDING-----------------------------------------------------------
@@ -84,10 +89,15 @@ plt.plot(x, Max_SH_readings, label = "Max I")
 plt.plot(x, Min_SH_readings, label = "Min I")
 plt.plot(x, Avg_SH_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of Shredder Line")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_SH_readings)
+ymin = min(i for i in Avg_SH_readings if i > 72)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_SH_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("SH.png", bbox_inches="tight")
 plt.show()
 
 
@@ -132,8 +142,8 @@ with open("Sensor_Data/GL_Sensor_Data.csv") as csv_file: #Open the csv file spec
             index = math.floor((date - startdate).total_seconds() / 600)
             if index != last_index:
                 Max_TW_readings[index] += float(MaxCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
-                if Max_TW_readings[index] > 300:
-                    Max_TW_readings[index] = 300
+                if Max_TW_readings[index] > 280:
+                    Max_TW_readings[index] = 280
                 Min_TW_readings[index] += float(MinCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
                 Avg_TW_readings[index] += float(AvgCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
             last_index = index
@@ -144,10 +154,15 @@ plt.plot(x, Max_TW_readings, label = "Max I")
 plt.plot(x, Min_TW_readings, label = "Min I")
 plt.plot(x, Avg_TW_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of TyreWire Line")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_TW_readings)
+ymin = min(i for i in Avg_TW_readings if i > 100)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_TW_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("TW.png", bbox_inches="tight")
 plt.show()
 
 
@@ -184,8 +199,8 @@ with open("Sensor_Data/SH_Sensor_Data.csv") as csv_file: #Open the csv file spec
                     Avg_SG_readings[index] += float(AvgCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
             last_index = index
 
-startdate = datetime.datetime(2021, 10, 20, 19) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2021, 10, 21, 7) #Set end date, first date exluded in analysis
+startdate = datetime.datetime(2021, 9, 17, 19) #Set start date, fist date included in analysis
+enddate = datetime.datetime(2021, 9, 18, 7) #Set end date, first date exluded in analysis
 days_difference =  (enddate - startdate).days
 
 
@@ -215,10 +230,15 @@ plt.plot(x, Max_SG_readings, label = "Max I")
 plt.plot(x, Min_SG_readings, label = "Min I")
 plt.plot(x, Avg_SG_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of Shredding & Granulating")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_SG_readings)
+ymin = min(i for i in Avg_SG_readings if i > 200)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_SG_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("SG.png", bbox_inches="tight")
 plt.show()
 
 
@@ -302,10 +322,15 @@ plt.plot(x, Max_ST_readings, label = "Max I")
 plt.plot(x, Min_ST_readings, label = "Min I")
 plt.plot(x, Avg_ST_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of Shredding & Tyrewire")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_ST_readings)
+ymin = min(i for i in Avg_ST_readings if i > 175)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_ST_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("ST.png", bbox_inches="tight")
 plt.show()
 
 #---------------------------------GL + TW-----------------------------------------------------------
@@ -335,8 +360,8 @@ with open("Sensor_Data/TW_Sensor_Data.csv") as csv_file: #Open the csv file spec
                 Avg_GT_readings[index] += float(AvgCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
             last_index = index
 
-startdate = datetime.datetime(2021, 10, 20, 19) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2021, 10, 21, 7) #Set end date, first date exluded in analysis
+startdate = datetime.datetime(2021, 9, 17, 19) #Set start date, fist date included in analysis
+enddate = datetime.datetime(2021, 9, 18, 7) #Set end date, first date exluded in analysis
 days_difference =  (enddate - startdate).days
 
 with open("Sensor_Data/GL_Sensor_Data.csv") as csv_file: #Open the csv file specified
@@ -365,10 +390,15 @@ plt.plot(x, Max_GT_readings, label = "Max I")
 plt.plot(x, Min_GT_readings, label = "Min I")
 plt.plot(x, Avg_GT_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Operating Profile of Granulating & Tyrewire")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_GT_readings)
+ymin = min(i for i in Avg_GT_readings if i > 200)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_GT_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("GT.png", bbox_inches="tight")
 plt.show()
 
 #---------------------------------FULL LINES-----------------------------------------------------------
@@ -398,8 +428,8 @@ with open("Sensor_Data/TW_Sensor_Data.csv") as csv_file: #Open the csv file spec
                 Avg_ALL_readings[index] += float(AvgCurrent) * 400 * math.sqrt(3) * 0.8 / 1000
             last_index = index
 
-startdate = datetime.datetime(2021, 10, 20, 19) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2021, 10, 21, 7) #Set end date, first date exluded in analysis
+startdate = datetime.datetime(2021, 9, 17, 19) #Set start date, fist date included in analysis
+enddate = datetime.datetime(2021, 9, 18, 7) #Set end date, first date exluded in analysis
 days_difference =  (enddate - startdate).days
 
 with open("Sensor_Data/GL_Sensor_Data.csv") as csv_file: #Open the csv file specified
@@ -455,8 +485,13 @@ plt.plot(x, Max_ALL_readings, label = "Max I")
 plt.plot(x, Min_ALL_readings, label = "Min I")
 plt.plot(x, Avg_ALL_readings, label = "Avg I")
 plt.gcf().autofmt_xdate()
-plt.legend()
 plt.title("Estimated Operating Profile of Full Processing (All Lines)")
 plt.xlabel("Time of Day")
 plt.ylabel("kW")
+ymax = max(Avg_ALL_readings)
+ymin = min(i for i in Avg_ALL_readings if i > 275)
+plt.hlines(y=[ymin, ymax], xmin = x[0], xmax=x[-1], colors='black', linestyles='--', label='Avg Demand = ' + str(round(ymin)) + ' - ' + str(round(ymax)) + ' kW')
+plt.plot([], [], ' ', label='Peak demand = ' + str(round(max(Max_ALL_readings))) + ' kW')
+plt.legend(bbox_to_anchor=(1.04,0.5), loc="center left", borderaxespad=0)
+plt.savefig("ALL.png", bbox_inches="tight")
 plt.show()

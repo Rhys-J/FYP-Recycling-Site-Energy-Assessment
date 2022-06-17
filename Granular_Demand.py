@@ -14,15 +14,15 @@ SH_sheet = workbook["Shredder Line"]
 SH_readings = []
 SH_timings = []
 
-for row in SH_sheet.iter_rows(4, 1000, 5, 6, True):
-    SH_readings.append(row[1] * 400 * math.sqrt(3) * 0.8 / 1000)
+for row in SH_sheet.iter_rows(24, 1000, 5, 6, True):
+    SH_readings.append(min(150, row[1] * 400 * math.sqrt(3) * 0.8 / 1000))
     SH_timings.append(row[0])
 
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 plt.plot(SH_timings, SH_readings)
 plt.gcf().autofmt_xdate()
 plt.ylim([0, max(SH_readings)+30])
-plt.title("Shredder Line Granular Demand")
+plt.title("Shredder Line Start up Demand")
 plt.xlabel("Time")
 plt.ylabel("kW")
 plt.show()
@@ -34,7 +34,7 @@ GL_sheet = workbook["Granulation Line"]
 GL_readings = []
 GL_timings = []
 
-for row in GL_sheet.iter_rows(4, 1000, 2, 3, True):
+for row in GL_sheet.iter_rows(4, 1000, 8, 9, True):
     GL_readings.append(row[1] * 400 * math.sqrt(3) * 0.8 / 1000)
     GL_timings.append(row[0])
 
@@ -42,7 +42,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 plt.plot(GL_timings, GL_readings)
 plt.gcf().autofmt_xdate()
 plt.ylim([0, max(GL_readings)+30])
-plt.title("Granulation Line Granular Demand")
+plt.title("Granulation Line Start up Demand")
 plt.xlabel("Time")
 plt.ylabel("kW")
 plt.show()
@@ -62,7 +62,7 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
 plt.plot(TW_timings, TW_readings)
 plt.gcf().autofmt_xdate()
 plt.ylim([0, max(TW_readings)+30])
-plt.title("Tyrewire Line Granular Demand")
+plt.title("Tyrewire Line Start up Demand")
 plt.xlabel("Time")
 plt.ylabel("kW")
 plt.show()

@@ -1,12 +1,13 @@
-from calendar import week
 import datetime
 import csv
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import math
 
+from numpy import average
+
 startdate = datetime.datetime(2021, 5, 1) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2022, 3, 1) #Set end date, first date exluded in analysis
+enddate = datetime.datetime(2022, 5, 1) #Set end date, first date exluded in analysis
 
 days_diff = (enddate - startdate).days
 
@@ -45,13 +46,15 @@ with open("Sensor_Data/TW_Sensor_Data.csv") as csv_file: #Open the csv file spec
 
 i = 0
 moving_average = []
-window_size = 10
+window_size = 30
 while i < len(Demand) - window_size + 1:
     this_window = Demand[i:i+window_size]
-    window_average = sum(this_window) / window_size
-    moving_average.append(window_average)
-    i += 1
+    window_average = sum(this_window)
+    for j in range(window_size):
+        moving_average.append(window_average)
+    i += window_size
 
+print(average(moving_average))
 print(sum(Demand))
 
 x = [startdate + datetime.timedelta(days = i) for i in  range(len(moving_average))]

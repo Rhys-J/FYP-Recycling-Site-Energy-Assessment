@@ -2,8 +2,8 @@ import datetime
 import csv
 import math
 
-startdate = datetime.datetime(2021, 5, 1) #Set start date, fist date included in analysis
-enddate = datetime.datetime(2022, 1, 1) #Set end date, first date exluded in analysis
+startdate = datetime.datetime(2022, 4, 1) #Set start date, fist date included in analysis
+enddate = datetime.datetime(2022, 5, 1) #Set end date, first date exluded in analysis
 
 print(startdate)
 print(enddate)
